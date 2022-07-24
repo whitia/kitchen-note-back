@@ -7,7 +7,7 @@ class API::V1::RecipesController < ApplicationController
   end
 
   def show
-    render json: recipe.to_json
+    render json: @recipe.to_json
   end
 
   def create
@@ -39,6 +39,6 @@ class API::V1::RecipesController < ApplicationController
   end
 
   def set_recipe
-    @recipe = Recipe.find(params[:id])
+    @recipe = Recipe.find_by(path: params[:id])
   end
 end
