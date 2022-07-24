@@ -17,4 +17,12 @@ class API::V1::RecipesController < ApplicationController
     }
     render json: recipes, status: :ok
   end
+
+  def show; end
+
+  def create; end
+
+  def update; end
+
+  def destroy; end
 end
