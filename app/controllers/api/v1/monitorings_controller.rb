@@ -1,4 +1,4 @@
-class V1::MonitoringsController < ApplicationController
+class API::V1::MonitoringsController < ApplicationController
   def health
     render json: { status: '200 OK' }, status: :ok
   end
