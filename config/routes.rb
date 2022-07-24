@@ -4,6 +4,8 @@ Rails.application.routes.draw do
       get '/health', to: 'monitorings#health'
       get '/version', to: 'monitorings#version'
       get '/metrics', to: 'monitorings#metrics'
+
+      resources :recipes
     end
   end
 end
