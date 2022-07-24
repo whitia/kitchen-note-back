@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       get '/version', to: 'monitorings#version'
       get '/metrics', to: 'monitorings#metrics'
 
-      resources :recipes
+      resources :recipes, only: [:index, :show, :create, :update, :destroy]
     end
   end
 end
