@@ -26,12 +26,14 @@ ActiveRecord::Schema.define(version: 2022_07_24_155047) do
   end
 
   create_table "recipes", force: :cascade do |t|
-    t.string "title"
-    t.string "uuid"
-    t.string "external_title"
-    t.string "external_url"
+    t.string "title", null: false
+    t.string "uuid", null: false
+    t.string "external_title", null: false
+    t.string "external_url", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["external_url"], name: "index_recipes_on_external_url", unique: true
+    t.index ["uuid"], name: "index_recipes_on_uuid", unique: true
   end
 
 end
