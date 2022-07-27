@@ -1,6 +1,6 @@
 class API::V1::RecipesController < ApplicationController
   before_action :set_recipe, only: [:show, :update, :destroy]
-  before_action :set_ingredients, only: [:show, :destroy]
+  before_action :set_ingredients, only: [:show]
 
   def index
     recipes = Recipe.order(created_at: :desc)
@@ -29,11 +29,11 @@ class API::V1::RecipesController < ApplicationController
     json = if @recipe.update(recipe_params)
       unless params[:ingredients].nil?
         ingredients = params[:ingredients].split(',')
-        recipe.save_ingredients(ingredients)
+        @recipe.save_ingredients(ingredients)
       end
-      { status: 'SUCCESS', data: { recipe: recipe, ingredients: ingredients } }
+      { status: 'SUCCESS', data: { recipe: @recipe, ingredients: ingredients } }
     else
-      { status: 'ERROR', data: recipe.errors.full_messages }
+      { status: 'ERROR', data: @recipe.errors.full_messages }
     end
     render json: json
   end
