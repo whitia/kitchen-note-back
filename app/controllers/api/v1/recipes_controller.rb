@@ -4,7 +4,19 @@ class API::V1::RecipesController < ApplicationController
 
   def index
     recipes = Recipe.order(created_at: :desc)
-    render json: { status: 'SUCCESS', data: recipes, total: recipes.size }
+    image_urls = Array.new
+    recipes.each do |recipe|
+      image_urls.push(recipe.image.attached? ? url_for(recipe.image) : nil)
+    end
+
+    render json: {
+      status: 'SUCCESS',
+      data: {
+        recipes: recipes,
+        image_urls: image_urls,
+        total: recipes.size
+      }
+    }
   end
 
   def show
