@@ -20,7 +20,14 @@ class API::V1::RecipesController < ApplicationController
   end
 
   def show
-    render json: { status: 'SUCCESS', data: { recipe: @recipe, ingredients: @ingredients } }
+    render json: {
+      status: 'SUCCESS',
+      data: {
+        recipe: @recipe,
+        image_url: @recipe.image.attached? ? url_for(@recipe.image) : nil,
+        ingredients: @ingredients
+      }
+    }
   end
 
   def create
