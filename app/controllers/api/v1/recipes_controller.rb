@@ -46,9 +46,9 @@ class API::V1::RecipesController < ApplicationController
       if @recipe.update(recipe_params)
         save_ingredients(@recipe)
         { status: 'SUCCESS', data: { recipe: @recipe, ingredients: @ingredients} }
-    else
-      { status: 'ERROR', data: @recipe.errors.full_messages }
-    end
+      else
+        { status: 'ERROR', data: @recipe.errors.full_messages }
+      end
     render json: json
   end
 
@@ -76,5 +76,13 @@ class API::V1::RecipesController < ApplicationController
 
   def set_ingredients
     @ingredients = @recipe.ingredients.pluck(:name)
+  end
+
+  def save_ingredients(recipe)
+    unless params[:ingredients].nil?
+      ingredients = params[:ingredients].split(',')
+      recipe.save_ingredients
+      ingredients
+    end
   end
 end
