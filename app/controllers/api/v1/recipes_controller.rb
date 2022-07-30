@@ -61,11 +61,12 @@ class API::V1::RecipesController < ApplicationController
   private
 
   def recipe_params
-    params.require(:recipe).permit(
+    params.permit(
       :title,
       :uuid,
       :external_title,
       :external_url,
+      :image,
     )
   end
 
