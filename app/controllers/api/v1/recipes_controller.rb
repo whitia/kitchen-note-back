@@ -42,12 +42,10 @@ class API::V1::RecipesController < ApplicationController
   end
 
   def update
-    json = if @recipe.update(recipe_params)
-      unless params[:ingredients].nil?
-        ingredients = params[:ingredients].split(',')
-        @recipe.save_ingredients(ingredients)
-      end
-      { status: 'SUCCESS', data: { recipe: @recipe, ingredients: ingredients } }
+    json =
+      if @recipe.update(recipe_params)
+        save_ingredients(@recipe)
+        { status: 'SUCCESS', data: { recipe: @recipe, ingredients: @ingredients} }
     else
       { status: 'ERROR', data: @recipe.errors.full_messages }
     end
