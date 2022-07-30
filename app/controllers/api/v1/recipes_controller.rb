@@ -54,6 +54,7 @@ class API::V1::RecipesController < ApplicationController
 
   def destroy
     @recipe.destroy
+    save_ingredients(@recipe)
     render json: { status: 'SUCCESS', data: { recipe: @recipe, ingredients: @ingredients } }
   end
 
