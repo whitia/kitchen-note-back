@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 2022_08_02_222618) do
     t.string "external_url", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "category"
+    t.string "category", default: "", null: false
     t.index ["external_url"], name: "index_recipes_on_external_url", unique: true
     t.index ["uuid"], name: "index_recipes_on_uuid", unique: true
   end
