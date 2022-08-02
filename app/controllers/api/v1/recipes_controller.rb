@@ -83,6 +83,7 @@ class API::V1::RecipesController < ApplicationController
     params.permit(
       :title,
       :uuid,
+      :category,
       :external_title,
       :external_url,
       :image,
