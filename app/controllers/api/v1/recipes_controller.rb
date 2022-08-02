@@ -32,7 +32,8 @@ class API::V1::RecipesController < ApplicationController
 
   def create
     recipe = Recipe.new(recipe_params)
-    json = if recipe.save
+    json =
+      if recipe.save
       ingredients = save_ingredients(recipe)
       { status: 'SUCCESS', data: { recipe: recipe, ingredients: ingredients } }
     else
@@ -81,7 +82,7 @@ class API::V1::RecipesController < ApplicationController
   def save_ingredients(recipe)
     unless params[:ingredients].nil?
       ingredients = params[:ingredients].split(',')
-      recipe.save_ingredients
+      recipe.save_ingredients(ingredients)
       ingredients
     end
   end
