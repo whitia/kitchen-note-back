@@ -34,11 +34,11 @@ class API::V1::RecipesController < ApplicationController
     recipe = Recipe.new(recipe_params)
     json =
       if recipe.save
-      ingredients = save_ingredients(recipe)
-      { status: 'SUCCESS', data: { recipe: recipe, ingredients: ingredients } }
-    else
-      { status: 'ERROR', data: recipe.errors.full_messages }
-    end
+        ingredients = save_ingredients(recipe)
+        { status: 'SUCCESS', data: { recipe: recipe, ingredients: ingredients } }
+      else
+        { status: 'ERROR', data: recipe.errors.full_messages }
+      end
     render json: json
   end
 
@@ -57,6 +57,24 @@ class API::V1::RecipesController < ApplicationController
     @recipe.destroy
     save_ingredients(@recipe)
     render json: { status: 'SUCCESS', data: { recipe: @recipe, ingredients: @ingredients } }
+  end
+
+  def search
+    query = URI.decode(params[:query])
+    recipes = Ingredient.find_by(name: query).recipes.order(created_at: :desc)
+    image_urls = Array.new
+    recipes.each do |recipe|
+      image_urls.push(recipe.image.attached? ? url_for(recipe.image) : nil)
+    end
+
+    render json: {
+      status: 'SUCCESS',
+      data: {
+        recipes: recipes,
+        image_urls: image_urls,
+        total: recipes.size
+      }
+    }
   end
 
   private
