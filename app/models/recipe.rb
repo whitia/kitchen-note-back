@@ -1,7 +1,7 @@
 class Recipe < ApplicationRecord
   include Rails.application.routes.url_helpers
 
-  has_and_belongs_to_many :ingredients
+  has_and_belongs_to_many :ingredients, dependent: :destroy
 
   has_one_attached :image
 
