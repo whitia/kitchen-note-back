@@ -84,6 +84,7 @@ class API::V1::RecipesController < ApplicationController
       :title,
       :uuid,
       :category,
+      :sub_category,
       :external_title,
       :external_url,
       :image,
