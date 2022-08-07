@@ -72,10 +72,7 @@ class API::V1::RecipesController < ApplicationController
         Ingredient.find_by(name: keyword).recipes.order(created_at: :desc)
       end
 
-    image_urls = Array.new
-    recipes.each do |recipe|
-      image_urls.push(recipe.image.attached? ? url_for(recipe.image) : nil)
-    end
+    image_urls = recipes.map { |recipe| recipe.image.attached? ? url_for(recipe.image) : nil }
 
     render json: {
       status: 'SUCCESS',
