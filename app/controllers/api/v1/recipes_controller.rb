@@ -60,8 +60,17 @@ class API::V1::RecipesController < ApplicationController
   end
 
   def search
-    query = URI.decode(params[:query])
-    recipes = Ingredient.find_by(name: query).recipes.order(created_at: :desc)
+    type = params[:type]
+    keyword = URI.decode(params[:keyword])
+
+    recipes =
+      case type
+      when 'category' then
+        Recipe.where(category: keyword).order(created_at: :desc)
+      when 'ingredient' then
+        Ingredient.find_by(name: keyword).recipes.order(created_at: :desc)
+      end
+
     image_urls = Array.new
     recipes.each do |recipe|
       image_urls.push(recipe.image.attached? ? url_for(recipe.image) : nil)
