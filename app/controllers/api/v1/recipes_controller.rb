@@ -6,6 +6,7 @@ class API::V1::RecipesController < ApplicationController
     recipes = Recipe.order(created_at: :desc)
     image_urls = recipes.map { |recipe| recipe.image.attached? ? url_for(recipe.image) : nil }
     categories = Recipe.distinct.pluck(:category).sort
+    ingredients = Ingredient.distinct.pluck(:name).sort
 
     render json: {
       status: 'SUCCESS',
@@ -13,6 +14,7 @@ class API::V1::RecipesController < ApplicationController
         recipes: recipes,
         image_urls: image_urls,
         categories: categories,
+        ingredients: ingredients,
         total: recipes.size
       }
     }
