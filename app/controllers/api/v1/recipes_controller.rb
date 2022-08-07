@@ -4,9 +4,14 @@ class API::V1::RecipesController < ApplicationController
 
   def index
     recipes = Recipe.order(created_at: :desc)
-    image_urls = Array.new
-    recipes.each do |recipe|
-      image_urls.push(recipe.image.attached? ? url_for(recipe.image) : nil)
+    image_urls = recipes.map { |recipe| recipe.image.attached? ? url_for(recipe.image) : nil }
+
+    recipes_by_category = Hash.new
+    image_urls_by_category = Hash.new
+    categories = Recipe.distinct.pluck(:category).sort
+    categories.each do |category|
+      recipes_by_category[category] = Recipe.where(category: category).limit(3).order(created_at: :desc)
+      image_urls_by_category[category] = recipes_by_category[category].map { |recipe| recipe.image.attached? ? url_for(recipe.image) : nil }
     end
 
     render json: {
@@ -14,6 +19,8 @@ class API::V1::RecipesController < ApplicationController
       data: {
         recipes: recipes,
         image_urls: image_urls,
+        recipes_by_category: recipes_by_category,
+        image_urls_by_category: image_urls_by_category,
         total: recipes.size
       }
     }
